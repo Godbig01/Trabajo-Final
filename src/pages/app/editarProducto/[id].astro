@@ -1,0 +1,55 @@
+---
+import LinkBackTable from "@/components/LinkBackTable";
+import Layout from "@/layouts/Layout.astro";
+import Loader from "@/components/Loader.astro";
+import FormEditProducto from "@/components/FormEditProducto";
+
+import { getProductoData } from "@/pages/api/seeProduct";
+import { getProveedor } from "@/pages/api/seeProve";
+
+const { id } = Astro.params;
+
+const { productos }=await getProductoData(id);
+const { proveedores }=await getProveedor();
+
+// console.log("Data productos",productos);
+
+// console.log("Proveedores",proveedores);
+
+
+
+
+if(!productos) {
+    return Astro.redirect("/app/verProducto?error=1");
+}
+---
+
+<Layout title="Editar Producto | Tienda 7 de Agosto">
+    <Loader />
+    <div class="hidden" id="content">
+        <FormEditProducto client:load producto={productos} proveedores={proveedores}/>
+    </div>
+            
+    <LinkBackTable url="verProducto"/>
+</Layout>
+
+<style>
+    label{
+        text-align: end;
+    }
+    form {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        row-gap: 14px;
+        column-gap: 10px;
+    }
+    input {
+        font-size: 19px;
+        border: inherit;
+        border-radius: 5px;
+        padding-left: 10px;
+    }
+    select{
+        border-radius: 5px;
+    }
+</style>

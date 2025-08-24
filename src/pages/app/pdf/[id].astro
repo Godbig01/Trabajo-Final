@@ -1,0 +1,54 @@
+---
+import ModalMail from "@/components/utils/ModalMail";
+import { generatePDF } from "@/pages/api/pdf";
+
+const { id } = Astro.params;
+
+const { url, error } = await generatePDF(id);
+
+if (!Astro.locals.user) {
+  return Astro.redirect("/");
+}
+---
+
+<div class="w-full h-screen p-4 md:p-8">
+  <div class="grid md:grid-cols-2 gap-8 h-full">
+    <section
+      class="w-full h-full flex flex-col justify-center items-center bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold mb-6">Enviar factura al correo</h2>
+      <div class="flex flex-col gap-5 w-full max-w-sm">
+        <ModalMail client:load idFactura={id} />
+      </div>
+    </section>
+
+    <section
+      class="w-full h-full flex flex-col justify-center items-center bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold mb-6">Vista previa factura</h2>
+      <div
+        class="w-full h-[calc(100%-3rem)] max-h-[70vh] overflow-hidden rounded-lg border-2 border-gray-300">
+        {
+          error ? (
+            <div class="flex items-center justify-center w-full h-full text-red-500">
+              <p>
+                Ha ocurrido un error <br />
+                Mensaje del error: <br />
+                <span class="text-black">{error}</span>
+              </p>
+            </div>
+          ) : (
+            <iframe src={url[0]} class="w-full h-full" id="Iframe" />
+          )
+        }
+      </div>
+    </section>
+  </div>
+</div>
+
+<style>
+  button {
+    @apply flex gap-2 items-center justify-center px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-lg font-mono transition-all duration-200;
+  }
+  button:hover {
+    @apply bg-green-500 text-white;
+  }
+</style>

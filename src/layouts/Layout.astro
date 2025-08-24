@@ -1,0 +1,70 @@
+---
+import NavBar from "../components/NavBar.astro";
+import Header from "../components/utils/Header.astro";
+import { ViewTransitions } from "astro:transitions";
+import { Toaster } from "@pheralb/toast";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta name="title" content="Tienda 7 de Agosto" />
+    <meta name="description" content="Pagina de la tienda 7 de Agosto" />
+    <meta name="keywords" content="Tienda" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="language" content="Spanish" />
+    <meta name="author" content="Joseph Londoño" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/tienda.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <!-- <ViewTransitions /> -->
+  </head>
+  <body>
+    <NavBar />
+    <Header />
+    <main>
+      <slot />
+      <Toaster client:load />
+    </main>
+  </body>
+</html>
+<style is:global>
+  code {
+    font-family:
+      Menlo,
+      Monaco,
+      Lucida Console,
+      Liberation Mono,
+      DejaVu Sans Mono,
+      Bitstream Vera Sans Mono,
+      Courier New,
+      monospace;
+  }
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  .input-class {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px;
+    width: 100%;
+  }
+  form input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"] {
+    padding-left: 7px;
+    border-radius: 5px;
+  }
+</style>

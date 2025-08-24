@@ -1,0 +1,42 @@
+---
+import LinkReturn from "@/components/utils/LinkReturn";
+import Layout from "@/layouts/Layout.astro";
+import TablaInfoClientes from "@/components/TablaInfoClientes";
+import Loader from "@/components/Loader.astro";
+
+import { getClient } from "@/pages/api/seeClient";
+
+let { clientes, error } = await getClient();
+
+if(!clientes){
+  clientes = []
+}
+if (!Astro.locals.user) {
+    return Astro.redirect("/")
+}
+---
+
+<Layout title="Ver Clientes | Tienda 7 de Agosto">
+  <Loader />
+  <div class="w-fit mx-auto mt-6 text-center hidden" id="content">
+    <h2 class="text-2xl font-semibold">Ver Clientes</h2>
+    <TablaInfoClientes client:load clientes={clientes} error={error} />
+  </div>
+  <LinkReturn/>
+</Layout>
+
+<style>
+   table{
+      border-radius: 15px;
+      overflow: hidden;
+   }
+   a{
+      background-color: #59e28b;
+      border-radius: 15px;
+      padding: 8px;
+      transition: background-color 0.3s, color 0.3s;
+   }
+   a:hover{
+      background-color: #22c55e;
+   }
+</style>

@@ -1,0 +1,20 @@
+---
+import TablaInfoPQRS from "@/components/TablaInfoPQRS";
+import Layout from "@/layouts/Layout.astro";
+
+import { getPQRS } from "@/pages/api/getPQRS";
+
+const { PQRS, error } = await getPQRS();
+
+const user = Astro.locals.user;
+
+if (!user) {
+  return Astro.redirect("/");
+}
+---
+
+<Layout title="Tienda 7 de Agosto">
+  <main class="mb-11">
+    <TablaInfoPQRS client:load pqrs={PQRS} error={error} />
+  </main>
+</Layout>

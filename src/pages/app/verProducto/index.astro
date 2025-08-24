@@ -1,0 +1,23 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LinkReturn from "@/components/utils/LinkReturn";
+import TablaInfoProductos from "@/components/TablaInfoProductos";
+import Loader from "@/components/Loader.astro";
+
+import { getProducto } from "@/pages/api/seeProduct";
+
+const { productos, error } = await getProducto();
+
+if (!Astro.locals.user) {
+  return Astro.redirect("/");
+}
+---
+
+<Layout title="Ver Productos | Tienda 7 de Agosto">
+  <Loader />
+  <div class="w-fit mx-auto mt-6 text-center hidden" id="content">
+    <h2 class="text-2xl font-semibold">Ver Productos</h2>
+    <TablaInfoProductos client:load productos={productos} error={error} />
+  </div>
+  <LinkReturn />
+</Layout>

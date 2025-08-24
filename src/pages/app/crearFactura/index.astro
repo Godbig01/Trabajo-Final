@@ -1,0 +1,75 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+import Factures from "@/components/SectionFacturas";
+import { ShowToastError, ShowToastSuccess } from "@/components/utils/showToast";
+import Loader from "@/components/Loader.astro";
+
+
+import { getClient } from "@/pages/api/seeClient";
+import { getProductoWithOutProvider } from "@/pages/api/seeProduct";
+
+const getClientData = async () => {
+    const dataClient = await getClient();
+    
+    let messageErrorClient = ""
+    if (dataClient.error) {
+        messageErrorClient = dataClient.error;
+    }
+    return ({ dataClient, messageErrorClient });
+}
+
+const getProductsData = async () => {
+    const dataProductos = await getProductoWithOutProvider();
+    
+    let messageErrorProductos = ""
+    if (dataProductos.error) {
+        messageErrorProductos = dataProductos.error;
+    }
+    return ({ dataProductos, messageErrorProductos });
+}
+
+const dataProducts = await getProductsData();
+const dataClient = await getClientData();
+
+// (dataProducts.dataProductos.productos);
+// (dataClient.dataClient.clientes);
+
+const sucess = Astro.url.searchParams.get("sucess");
+const error = Astro.url.searchParams.get("error");
+
+if (!Astro.locals.user) {
+    return Astro.redirect("/")
+}
+
+
+---
+
+<Layout title="Crear Facturas | Tienda 7 de Agosto">
+    <Loader />
+    <div class="hidden" id="content"> 
+        <div class="flex flex-col items-center w-full">
+            <header class="bg-primary text-primary-foreground py-4 px-6">
+                <h1 class="text-2xl font-semibold">Generar Factura</h1>
+            </header>
+            <Factures client:load dataClient={dataClient.dataClient.clientes} dataProducts={dataProducts.dataProductos.productos} />
+        </div>
+    </div>
+    {
+        dataClient.messageErrorClient && <ShowToastError client:load message={dataClient.messageErrorClient} transition:persist />
+    }
+    {
+        dataProducts.messageErrorProductos && <ShowToastError client:load message={dataProducts.messageErrorProductos} transition:persist />
+    }
+    {
+        sucess && <ShowToastSuccess client:load message="Factura creada con exito" transition:persist />
+    }
+    {
+        error && <ShowToastError client:load message="Error al crear la factura" transition:persist />
+    }
+    <style>
+        th, td {
+            border: 1px solid #ccc;
+        }
+    </style>
+</Layout>

@@ -1,0 +1,43 @@
+---
+import LinkBackTable from "@/components/LinkBackTable";
+import Loader from "@/components/Loader.astro";
+import FormEditClient from "@/components/FormEditClient";
+
+import Layout from "@/layouts/Layout.astro";
+import { getClienteData } from "@/pages/api/seeClient";
+
+const { id } = Astro.params;
+
+const { clientes } = await getClienteData(id);
+console.log(clientes);
+
+if (!clientes) {
+  return Astro.redirect("/app/verCliente");
+}
+
+if (!Astro.locals.user) {
+  return Astro.redirect("/");
+}
+
+if (id == "22222222") {
+  return Astro.redirect("/app/verCliente");
+}
+---
+
+<Layout title="Editar Cliente | Tienda 7 de Agosto">
+  <Loader />
+  <div class="hidden" id="content">
+    {clientes && <FormEditClient client:load cliente={clientes} />}
+  </div>
+
+  <LinkBackTable url="verCliente" />
+</Layout>
+
+<style>
+  input {
+    font-size: 19px;
+    border: inherit;
+    border-radius: 5px;
+    padding-left: 10px;
+  }
+</style>

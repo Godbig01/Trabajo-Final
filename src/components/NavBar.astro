@@ -1,0 +1,49 @@
+---
+import ButtonSignOut from "@/components/utils/buttonSignOut.astro";
+---
+
+<header transition:persist>
+  <nav>
+    <a href="/app">
+      <img
+        src="/tienda.png"
+        alt="Logo tienda"
+        width="50"
+        height="50"
+        class="bg-white p-1"
+      />
+      Tienda 7 de Agosto
+    </a>
+    <ButtonSignOut />
+  </nav>
+</header>
+
+<style>
+  header {
+    width: 100%;
+    background-color: rgb(86, 214, 86);
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  header a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  header a img {
+    border-radius: 999999px;
+    border: 1px solid rgb(146, 142, 142);
+  }
+</style>

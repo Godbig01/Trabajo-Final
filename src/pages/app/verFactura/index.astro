@@ -1,0 +1,49 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LinkReturn from "@/components/utils/LinkReturn";
+import TablaInfoFacturas from "@/components/TablaInfoFacturas";
+import Loader from "@/components/Loader.astro";
+
+import { getEnvoices, getDetailsEnvoices } from "@/pages/api/seeEnvoice";
+
+const dataEnvoices = await getEnvoices();
+const dataDetailEnvoices = await getDetailsEnvoices();
+
+const Envoices = dataEnvoices.facturas;
+const EnvoicesError = dataEnvoices.error;
+
+const DetailEnvoices = dataDetailEnvoices.detallesFactura;
+const DetailEnvoicesError = dataDetailEnvoices.error;
+
+
+if (!Astro.locals.user) {
+    return Astro.redirect("/")
+}
+
+---
+
+<Layout title="Ver Facturas | Tienda 7 de Agosto">
+  <Loader />
+  <div class="w-fit mx-auto mt-6 text-center hidden" id="content">
+    <h2 class="text-2xl font-semibold">Ver Facturas</h2>
+    <TablaInfoFacturas client:load Envoices={Envoices} EnvoicesError={EnvoicesError} DetailEnvoices={DetailEnvoices} DetailEnvoicesError={DetailEnvoicesError} />
+
+  </div>
+  <LinkReturn/>
+</Layout>
+
+<style>
+   table{
+      border-radius: 15px;
+      overflow: hidden;
+   }
+   a{
+      background-color: #59e28b;
+      border-radius: 15px;
+      padding: 8px;
+      transition: background-color 0.3s, color 0.3s;
+   }
+   a:hover{
+      background-color: #22c55e;
+   }
+</style>

@@ -1,0 +1,40 @@
+---
+
+
+---
+
+<div class="w-full h-1/2 flex justify-center mt-12 mb-16" id="loader">
+    <div class="loader">
+
+    </div>
+    
+  </div>
+
+  <script is:inline>
+    document.addEventListener("DOMContentLoaded", () =>{
+      const loader = document.getElementById("loader");
+      const content = document.getElementById("content");
+      if(loader){
+        loader.style.display = "none"
+        if(content){
+            content.style.display = "block"
+        }
+      }
+    })
+  </script>
+
+<style>
+    .loader {
+        width: 50px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: 8px solid;
+        border-color: #000 #0000;
+        animation: l1 1s infinite;
+    }
+    @keyframes l1 {
+        to{
+            transform: rotate(.5turn)
+        }
+    }
+</style>

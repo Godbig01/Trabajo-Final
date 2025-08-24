@@ -1,0 +1,30 @@
+---
+import LinkBackTable from "@/components/LinkBackTable";
+import Layout from "@/layouts/Layout.astro";
+import Loader from "@/components/Loader.astro";
+import FormEditProvetor from "@/components/FormEditProvetor";
+
+import { getProvData } from "@/pages/api/seeProve";
+
+const { nit } = Astro.params
+
+const { proveedor }=await getProvData(nit);
+
+if(!proveedor){
+    return Astro.redirect('/app/verProveedor');
+}
+
+
+
+---
+<Layout title="Editar Proveedor | Tienda 7 de Agosto">
+    <Loader />
+    <div class="hidden" id="content">
+        {
+            proveedor && proveedor.length > 0 &&
+                <FormEditProvetor client:load proveedor={proveedor} />
+        }
+    </div>
+    
+    <LinkBackTable url="verProveedor"/>
+</Layout>

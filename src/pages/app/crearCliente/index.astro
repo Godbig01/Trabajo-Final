@@ -1,0 +1,33 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LinkReturn from "@/components/utils/LinkReturn";
+import Loader from "@/components/Loader.astro";
+import FormCreateClient from "@/components/FormCreateClient";
+
+
+
+
+if (!Astro.locals.user) {
+    return Astro.redirect("/")
+}
+
+---
+
+<Layout title="Crear Clientes | Tienda 7 de Agosto">
+    <Loader />
+  <div class="hidden" id="content">
+    <div class="flex flex-col bg-[#f4f4f5] px-8 py-5 rounded-xl w-[400px] mx-auto mt-6">
+        <h2 class="text-2xl font-bold text-center">Crear Clientes</h2>
+        <FormCreateClient client:load />
+    </div>
+  </div>
+<LinkReturn />
+</Layout>
+
+<style>
+  input {
+      font-size: 19px;
+      border: inherit;
+      border-radius: 5px;
+  }
+</style>

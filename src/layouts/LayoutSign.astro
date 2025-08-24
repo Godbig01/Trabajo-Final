@@ -1,0 +1,31 @@
+---
+import { Toaster } from "@pheralb/toast";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta name="title" content="Tienda 7 de Agosto" />
+    <meta name="description" content="Pagina de la tienda 7 de Agosto" />
+    <meta name="keywords" content="Tienda" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="language" content="Spanish" />
+    <meta name="author" content="Joseph Londoño" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/tienda.png" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+    <Toaster client:load />
+  </body>
+</html>

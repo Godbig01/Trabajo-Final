@@ -1,0 +1,39 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import LinkReturn from "@/components/utils/LinkReturn";
+import TablaInfoProveedor from "@/components/TablaInfoProveedor";
+import Loader from "@/components/Loader.astro";
+
+import { getProveedor } from "@/pages/api/seeProve";
+
+const { proveedores, error } = await getProveedor();
+
+if (!Astro.locals.user) {
+    return Astro.redirect("/")
+}
+---
+
+<Layout title="Ver Proveedores | Tienda 7 de Agosto">
+  <Loader />
+  <div class="w-fit mx-auto mt-6 hidden" id="content">
+    <h2 class="text-2xl font-semibold pl-7 lg:text-center">Ver Proveedores</h2>
+    <TablaInfoProveedor client:load proveedores={proveedores} error={error} />
+  </div>
+  <LinkReturn/>
+</Layout>
+
+<style>
+  table{
+     border-radius: 15px;
+     overflow: hidden;
+  }
+  a{
+      background-color: #59e28b;
+      border-radius: 15px;
+      padding: 8px;
+      transition: background-color 0.3s, color 0.3s;
+   }
+   a:hover{
+      background-color: #22c55e;
+   }
+</style>
